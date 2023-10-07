@@ -26,4 +26,4 @@ jobs:
           ENVIRONMENT: Dev
           RUNNUMBER: ${{ github.run_number  }}
         with:         
-          filename: .github/depoyment-issue-template.md
+          filename: .github/issues.md
