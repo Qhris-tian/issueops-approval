@@ -8,23 +8,22 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Simulate a Build
-        run: echo 'Building docker image' > output.txt
+        run: echo 'hello youtube' > output.txt
         
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.4
         with:          
-          name: 'docker-image'
+          name: 'your-artifact-name'
           path: 'output.txt'
           
-      - name: Create Issue
+      - name: Create an issue
         uses: JasonEtco/create-an-issue@v2.6.0
-        with:
-          title: "Weekly Radar ${{ steps.date.outputs.current_date }}"
-          body: |
-            What's everyone up to this week?
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+          ENVIRONMENT: Dev
+          RUNNUMBER: ${{ github.run_number  }}
+        with:         
+          filename: .github/deployment-approval.md

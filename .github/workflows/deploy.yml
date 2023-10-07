@@ -26,16 +26,41 @@ jobs:
           issue_id: ${{ github.event.issue.number }}
           payload_marker: target_payload
 
-  deploy:
+  deploy-dev:
+    needs: [parse]
+    if: ${{ needs.parse.outputs.deploy-environment == 'Dev' }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download workflow artifact
+        uses: dawidd6/action-download-artifact@v2.15.0
+        with:
+          workflow: build.yml
+          repo: n3wt0n/DeploymentApprovals
+          run_number: ${{ needs.parse.outputs.ci-run-number }}
+          name: your-artifact-name
+          path: ${{ github.workspace }}
+
+      - name: Deploy to DEV
+        run: echo Simulating Deployment
+
+      - uses: JasonEtco/create-an-issue@v2
+        name: Create approval Issue for Prod
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ENVIRONMENT: Prod
+          RUNNUMBER: ${{ needs.parse.outputs.ci-run-number }}
+        with:
+          filename: .github/deployment-approval.md
+
+  deploy-prod:
     needs: [parse]
     if: ${{ needs.parse.outputs.deploy-environment == 'Prod' }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Output approver
-      - run: |
-          echo Deployment approved by ${{ github.event.actor.display_login }} with {{  github.event.actor.id }}
-
       - name: Download workflow artifact
         uses: dawidd6/action-download-artifact@v2.15.0
         with:
@@ -49,13 +74,13 @@ jobs:
         run: echo Simulating Deployment
 
   close-issue:
-    needs: [deploy]
+    needs: [deploy-dev, deploy-prod]
     if: ${{ always() }}
     runs-on: ubuntu-latest
 
     steps:
       - name: Close Issue
-        if: ${{ needs.deploy-prod.result == 'success' }}
+        if: ${{ needs.deploy-dev.result == 'success' || needs.deploy-prod.result == 'success' }}
         uses: peter-evans/close-issue@v1.0.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
