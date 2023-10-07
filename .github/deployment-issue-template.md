@@ -1,7 +1,7 @@
 ---
 title: Deployment Approval Required for Prod
 assignees: Qhris-tian
-labels: enhancement
+labels: deployment-request
 ---
 
 Deployment Approval requested from {{ payload.sender.login }}.

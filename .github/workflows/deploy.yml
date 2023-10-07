@@ -26,7 +26,7 @@ jobs:
           payload_marker: target_payload
 
       - name: Get Approver
-        run: echo Deployment approved by ${{ github.event.comment.user.name }} with id  ${{ github.event.comment.user.id }}
+        run: echo Deployment approved by ${{ github.event.comment.user.email }} with id  ${{ github.event.comment.user.id }}
 
   deploy-prod:
     needs: [parse]
