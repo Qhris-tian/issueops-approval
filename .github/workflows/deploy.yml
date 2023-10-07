@@ -25,6 +25,9 @@ jobs:
           issue_id: ${{ github.event.issue.number }}
           payload_marker: target_payload
 
+      - name: Get Approver
+        run: echo Deployment approved by ${{ github.event.comment.user.name }} with id  ${{ github.event.comment.user.id }}
+
   deploy-prod:
     needs: [parse]
     runs-on: ubuntu-latest

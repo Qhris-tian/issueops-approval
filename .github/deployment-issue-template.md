@@ -1,5 +1,5 @@
 ---
-title: Deployment Approval Required for {{ env.ENVIRONMENT }}
+title: Deployment Approval Required for Prod
 assignees: Qhris-tian
 labels: enhancement
 ---
