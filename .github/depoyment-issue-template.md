@@ -1,7 +1,7 @@
 ---
 title: Deployment Approval Required for {{ env.ENVIRONMENT }}
 assignees: Qhris-tian
-labels: deployment-request
+labels: enhancement
 ---
 
 Deployment Approval requested from {{ payload.sender.login }}.
