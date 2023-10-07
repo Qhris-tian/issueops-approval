@@ -20,10 +20,8 @@ jobs:
           path: 'output.txt'
           
       - name: Create an issue
-        uses: JasonEtco/create-an-issue@v2.6.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENVIRONMENT: Dev
-          RUNNUMBER: ${{ github.run_number  }}
-        with:         
-          filename: .github/deployment-approval.md
+        uses: dacbd/create-issue-action@main
+        with:
+          token: ${{ github.token }}
+          title: Simple test issue
+          body: my new issue
