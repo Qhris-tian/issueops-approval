@@ -19,11 +19,12 @@ jobs:
           name: 'docker-image'
           path: 'output.txt'
           
-      - name: Create an issue
+      - name: Create Issue
         uses: JasonEtco/create-an-issue@v2.6.0
+        with:
+          title: "Weekly Radar ${{ steps.date.outputs.current_date }}"
+          body: |
+            What's everyone up to this week?
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ENVIRONMENT: Dev
-          RUNNUMBER: ${{ github.run_number  }}
-        with:         
-          filename: .github/issues.md
+
