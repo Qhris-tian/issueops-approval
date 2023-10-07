@@ -1,18 +1,21 @@
-name: Greeting on variable day
+name: Update Repo Environment
 
 on:
   workflow_dispatch
 
-env:
-  DAY_OF_WEEK: Monday
-
 jobs:
-  greeting_job:
+  update-variable:
     runs-on: ubuntu-latest
-    env:
-      Greeting: Hello
+
     steps:
-      - name: "Say Hello Mona it's Monday"
-        run: echo "$Greeting $First_Name. Today is $DAY_OF_WEEK!"
-        env:
-          First_Name: Mona
+      - name: Set Variable
+        run: |
+          # Set the value of a GitHub Actions environment variable
+          echo "DOCKER_IMAGE=updated_value" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Use the Updated Variable
+        run: |
+          # Access and use the updated variable
+          echo "Updated variable value: $MY_VARIABLE"
+        shell: bash
